@@ -29,6 +29,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@bemedev/app-solid": "^0.5.1",
     "@bemedev/app-ts": "^1.6.1",
     "@bemedev/decompose": "^1.4.0",
     "@bemedev/fsf": "^1.0.1",

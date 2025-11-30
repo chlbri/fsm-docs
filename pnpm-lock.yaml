@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@bemedev/app-solid':
+        specifier: ^0.5.1
+        version: 0.5.1(@bemedev/app-ts@1.6.1(@bemedev/types@0.4.2)(vitest@4.0.14))(@bemedev/decompose@1.4.0(@bemedev/types@0.4.2)(vitest@4.0.14))(@bemedev/types@0.4.2)(solid-js@1.9.10)
       '@bemedev/app-ts':
         specifier: ^1.6.1
         version: 1.6.1(@bemedev/types@0.4.2)(vitest@4.0.14)
@@ -339,6 +342,15 @@ packages:
     hasBin: true
     peerDependencies:
       '@bemedev/app-ts': ^0.9.20
+
+  '@bemedev/app-solid@0.5.1':
+    resolution: {integrity: sha512-aURgv6BVpI1m+sQAwAVMCDmODPKtPUKYHV9j5W5KwR679TONFN2ZVNastbjWF9OUhRlJX/BuSYDtT5F/kGBsgg==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@bemedev/app-ts': ^1.4.3
+      '@bemedev/decompose': ^1.4.0
+      '@bemedev/types': ^0.4.2
+      solid-js: ^1.9.10
 
   '@bemedev/app-ts@1.6.1':
     resolution: {integrity: sha512-O8oNYRfqCLOHCZcboeQqewLO6KQ7ebYV1WtwiM05iNw0WnT/9NW8VK8dcsAQQRRb+L84LEfsw1AYi/6xNlqpvA==}
@@ -5057,6 +5069,13 @@ snapshots:
       - '@bemedev/types'
       - supports-color
       - vitest
+
+  '@bemedev/app-solid@0.5.1(@bemedev/app-ts@1.6.1(@bemedev/types@0.4.2)(vitest@4.0.14))(@bemedev/decompose@1.4.0(@bemedev/types@0.4.2)(vitest@4.0.14))(@bemedev/types@0.4.2)(solid-js@1.9.10)':
+    dependencies:
+      '@bemedev/app-ts': 1.6.1(@bemedev/types@0.4.2)(vitest@4.0.14)
+      '@bemedev/decompose': 1.4.0(@bemedev/types@0.4.2)(vitest@4.0.14)
+      '@bemedev/types': 0.4.2
+      solid-js: 1.9.10
 
   '@bemedev/app-ts@1.6.1(@bemedev/types@0.4.2)(vitest@4.0.14)':
     dependencies:
