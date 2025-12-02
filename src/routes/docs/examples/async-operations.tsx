@@ -40,10 +40,7 @@ const fetchMachine = createMachine({
         },
       },
       promises: {
-        fetchData: async () => {
-          const response = await fetch('/api/data');
-          return response.json();
-        },
+        fetchData: 'fetchData',
       },
     },
     success: {
@@ -59,18 +56,7 @@ const fetchMachine = createMachine({
       },
     },
   },
-});
-
-// Create the service with initial context
-const service = interpret(fetchMachine, {
-  context: {
-    data: null,
-    error: null,
-  },
-});
-
-// Define actions
-service.provideOptions(({ assign }) => ({
+}).provideOptions(({ assign }) => ({
   actions: {
     setData: assign('context', ({ context, event }) => ({
       ...context,
@@ -83,7 +69,21 @@ service.provideOptions(({ assign }) => ({
       data: null,
     })),
   },
-}));`}</code>
+  promises: {
+    fetchData: async () => {
+      const response = await fetch('/api/data');
+      return response.json();
+    },
+  },
+}));
+
+// Create the service with initial context
+const service = interpret(fetchMachine, {
+  context: {
+    data: null,
+    error: null,
+  },
+});`}</code>
             </pre>
           </div>
         </section>

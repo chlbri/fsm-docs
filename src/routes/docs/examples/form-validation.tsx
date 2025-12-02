@@ -63,19 +63,7 @@ const formMachine = createMachine({
       },
     },
   },
-});
-
-// Create the service with initial context
-const service = interpret(formMachine, {
-  context: {
-    email: '',
-    password: '',
-    errors: {},
-  },
-});
-
-// Define actions using provideOptions
-service.provideOptions(({ assign }) => ({
+}).provideOptions(({ assign }) => ({
   actions: {
     updateEmail: assign('context.email', ({ event }) => event.value),
     updatePassword: assign('context.password', ({ event }) => event.value),
@@ -89,6 +77,24 @@ service.provideOptions(({ assign }) => ({
         errors.password = 'Password too short';
       }
       return errors;
+    }),
+  },
+}));
+
+// Create the service with initial context
+const service = interpret(formMachine, {
+  context: {
+    email: '',
+    password: '',
+    errors: {},
+  },
+});
+
+// Can also add actions at runtime using addOptions on the service
+service.addOptions(({ voidAction }) => ({
+  actions: {
+    logError: voidAction(({ context }) => {
+      console.error('Validation errors:', context.errors);
     }),
   },
 }));`}</code>

@@ -68,47 +68,47 @@ const trafficLightMachine = createMachine({
   },
 });
 
-// Define actions
-const actions = {
-  logGreenEntry: (context: any) => {
-    console.log('🟢 Green light - GO');
-    return {
-      ...context,
-      lastChange: Date.now(),
-      emergencyActive: false,
-    };
-  },
-  
-  logGreenExit: (context: any) => {
-    console.log('Leaving green light');
-    return context;
-  },
-  
-  logYellowEntry: (context: any) => {
-    console.log('🟡 Yellow light - CAUTION');
-    return {
-      ...context,
-      lastChange: Date.now(),
-    };
-  },
-  
-  logRedEntry: (context: any, event: any) => {
-    const isEmergency = event.type === 'EMERGENCY';
-    console.log(
-      isEmergency
-        ? '🔴 Red light - EMERGENCY STOP'
-        : '🔴 Red light - STOP'
-    );
-    return {
-      ...context,
-      lastChange: Date.now(),
-      emergencyActive: isEmergency,
-    };
-  },
-};
+// Define actions using provideOptions
+const trafficLightWithActions = trafficLightMachine.provideOptions(
+  ({ assign, voidAction }) => ({
+    actions: {
+      logGreenEntry: assign('context', ({ context }) => {
+        console.log('🟢 Green light - GO');
+        return {
+          ...context,
+          lastChange: Date.now(),
+          emergencyActive: false,
+        };
+      }),
+      
+      logGreenExit: voidAction(() => {
+        console.log('Leaving green light');
+      }),
+      
+      logYellowEntry: assign('context.lastChange', () => {
+        console.log('🟡 Yellow light - CAUTION');
+        return Date.now();
+      }),
+      
+      logRedEntry: assign('context', ({ context, event }) => {
+        const isEmergency = event.type === 'EMERGENCY';
+        console.log(
+          isEmergency
+            ? '🔴 Red light - EMERGENCY STOP'
+            : '🔴 Red light - STOP'
+        );
+        return {
+          ...context,
+          lastChange: Date.now(),
+          emergencyActive: isEmergency,
+        };
+      }),
+    },
+  })
+);
 
 // Create the service with initial context
-const service = interpret(trafficLightMachine, {
+const service = interpret(trafficLightWithActions, {
   context: {
     lastChange: Date.now(),
     emergencyActive: false,

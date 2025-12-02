@@ -28,16 +28,23 @@ export const Route = createFileRoute('/docs/concepts/actions')({
             Defining Actions
           </h2>
           <p class='text-gray-700 mb-4'>
-            Actions are referenced by name in your configuration and
-            implemented in the machine options:
+            Actions are referenced by name in your machine configuration
+            and implemented using the{' '}
+            <code class='bg-gray-100 px-2 py-1 rounded text-sm'>
+              provideOptions
+            </code>{' '}
+            or{' '}
+            <code class='bg-gray-100 px-2 py-1 rounded text-sm'>
+              addOptions
+            </code>{' '}
+            methods:
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`import { createConfig } from '@bemedev/app-ts';
+              <code>{`import { createMachine } from '@bemedev/app-ts';
 
-const config = createConfig({
+const machine = createMachine({
   initial: 'idle',
-  context: { count: 0 },
   states: {
     idle: {
       on: {
@@ -52,7 +59,12 @@ const config = createConfig({
       },
     },
   },
-});`}</code>
+}).provideOptions(({ assign }) => ({
+  actions: {
+    incrementCount: assign('context.count', ({ context }) => context.count + 1),
+    decrementCount: assign('context.count', ({ context }) => context.count - 1),
+  },
+}));`}</code>
             </pre>
           </div>
         </section>
@@ -66,7 +78,7 @@ const config = createConfig({
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`const config = createConfig({
+              <code>{`const machine = createMachine({
   initial: 'idle',
   states: {
     idle: {
@@ -84,145 +96,170 @@ const config = createConfig({
       },
     },
   },
-});`}</code>
+}).provideOptions(({ voidAction, assign }) => ({
+  actions: {
+    logEntry: voidAction(() => console.log('Entering idle')),
+    logExit: voidAction(() => console.log('Exiting idle')),
+    startTimer: assign('context.startTime', () => Date.now()),
+    notifyUser: voidAction(() => console.log('Started!')),
+    stopTimer: assign('context.elapsed', ({ context }) => 
+      Date.now() - context.startTime
+    ),
+  },
+}));`}</code>
             </pre>
           </div>
         </section>
 
         <section class='mb-8'>
           <h2 class='text-2xl font-semibold text-gray-900 mb-3'>
-            Multiple Actions
+            Multiple Actions with Batch
           </h2>
           <p class='text-gray-700 mb-4'>
-            Execute multiple actions in sequence:
+            Execute multiple actions in sequence using the{' '}
+            <code class='bg-gray-100 px-2 py-1 rounded text-sm'>
+              batch
+            </code>{' '}
+            helper:
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`const config = createConfig({
+              <code>{`const machine = createMachine({
   initial: 'idle',
   states: {
     idle: {
       on: {
         SUBMIT: {
           target: 'loading',
-          // Actions execute in order
-          actions: ['validateInput', 'logSubmit', 'sendRequest'],
+          actions: 'handleSubmit',
         },
       },
     },
     loading: {
       on: {
-        SUCCESS: {
-          target: 'success',
-          actions: ['storeResult', 'notifyUser'],
-        },
-        ERROR: {
-          target: 'error',
-          actions: ['logError', 'showErrorMessage'],
-        },
+        SUCCESS: 'success',
+        ERROR: 'error',
       },
     },
     success: {},
     error: {},
   },
-});`}</code>
+}).provideOptions(({ batch, voidAction, assign }) => ({
+  actions: {
+    validateInput: voidAction(() => console.log('Validating...')),
+    logSubmit: voidAction(() => console.log('Submitting...')),
+    sendRequest: voidAction(() => console.log('Sending request...')),
+    // Combine multiple actions
+    handleSubmit: batch('validateInput', 'logSubmit', 'sendRequest'),
+  },
+}));`}</code>
             </pre>
           </div>
         </section>
 
         <section class='mb-8'>
           <h2 class='text-2xl font-semibold text-gray-900 mb-3'>
-            Action Parameters
+            Using Assign for Context Updates
           </h2>
           <p class='text-gray-700 mb-4'>
-            Actions receive context and event data:
+            The{' '}
+            <code class='bg-gray-100 px-2 py-1 rounded text-sm'>
+              assign
+            </code>{' '}
+            helper is the primary way to update context:
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`type Context = {
-  count: number;
-  history: number[];
-};
-
-const actions = {
-  increment: (context: Context, event: any) => {
-    return {
-      ...context,
-      count: context.count + 1,
-      history: [...context.history, context.count + 1],
-    };
+              <code>{`machine.provideOptions(({ assign }) => ({
+  actions: {
+    // Update a single property
+    increment: assign('context.count', ({ context }) => context.count + 1),
+    
+    // Update with event data
+    addValue: assign('context.count', ({ context, event }) => 
+      context.count + event.value
+    ),
+    
+    // Update entire context
+    reset: assign('context', () => ({
+      count: 0,
+      history: [],
+    })),
+    
+    // Update nested properties
+    setUserName: assign('context.user.name', ({ event }) => event.name),
   },
-  
-  addValue: (context: Context, event: { type: 'ADD'; value: number }) => {
-    return {
-      ...context,
-      count: context.count + event.value,
-    };
-  },
-};`}</code>
+}));`}</code>
             </pre>
           </div>
         </section>
 
         <section class='mb-8'>
           <h2 class='text-2xl font-semibold text-gray-900 mb-3'>
-            Assign Action
+            Side Effect Actions with voidAction
           </h2>
           <p class='text-gray-700 mb-4'>
-            Update specific context properties without replacing the entire
-            context:
+            Use{' '}
+            <code class='bg-gray-100 px-2 py-1 rounded text-sm'>
+              voidAction
+            </code>{' '}
+            for side effects that don't modify context:
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`const actions = {
-  updateUser: (context, event) => ({
-    ...context,
-    user: {
-      ...context.user,
-      name: event.name,
-      email: event.email,
-    },
-  }),
-  
-  resetCount: (context) => ({
-    ...context,
-    count: 0,
-  }),
-};`}</code>
+              <code>{`machine.provideOptions(({ voidAction }) => ({
+  actions: {
+    logState: voidAction(({ event }) => {
+      console.log('State transition:', event.type);
+    }),
+    
+    notifyUser: voidAction(() => {
+      alert('Operation completed!');
+    }),
+    
+    sendAnalytics: voidAction(({ context, event }) => {
+      analytics.track(event.type, { context });
+    }),
+  },
+}));`}</code>
             </pre>
           </div>
         </section>
 
         <section class='mb-8'>
           <h2 class='text-2xl font-semibold text-gray-900 mb-3'>
-            Side Effects
+            addOptions vs provideOptions
           </h2>
           <p class='text-gray-700 mb-4'>
-            Actions can perform side effects like API calls or logging:
+            <strong>provideOptions</strong> returns a new instance
+            (immutable), while <strong>addOptions</strong> mutates the
+            current instance:
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`const actions = {
-  logState: (context, event) => {
-    console.log('State transition:', event.type);
-    return context;
+              <code>{`// provideOptions: Returns NEW instance
+const machine2 = machine1.provideOptions(({ assign }) => ({
+  actions: {
+    newAction: assign('context.value', () => 42),
   },
-  
-  async fetchData(context, event) {
-    try {
-      const response = await fetch('/api/data');
-      const data = await response.json();
-      return { ...context, data };
-    } catch (error) {
-      return { ...context, error };
-    }
+}));
+// machine1 and machine2 are different instances
+
+// addOptions: Mutates CURRENT instance
+machine1.addOptions(({ assign }) => ({
+  actions: {
+    newAction: assign('context.value', () => 42),
   },
-  
-  notifyUser: (context) => {
-    alert('Operation completed!');
-    return context;
+}));
+// machine1 is modified
+
+// Works with interpret too!
+const service = interpret(machine, { context: { value: 0 } });
+service.addOptions(({ assign }) => ({
+  actions: {
+    setValue: assign('context.value', ({ event }) => event.value),
   },
-};`}</code>
+}));`}</code>
             </pre>
           </div>
         </section>
