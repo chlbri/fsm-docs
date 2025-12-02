@@ -265,6 +265,43 @@ service.addOptions(({ assign }) => ({
 
         <section class='mb-8'>
           <h2 class='text-2xl font-semibold text-gray-900 mb-3'>
+            RxJS Integration with Emitters
+          </h2>
+          <p class='text-gray-700 mb-4'>
+            Integrate RxJS observables using the{' '}
+            <code class='bg-gray-100 px-2 py-1 rounded text-sm'>
+              createPausable
+            </code>{' '}
+            helper to merge subscribables with @bemedev/app-ts syntax:
+          </p>
+          <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
+            <pre class='text-sm'>
+              <code>{`import { Subject } from 'rxjs';
+import { createPausable } from '@bemedev/app-ts';
+
+// Create an RxJS observable
+const clicks$ = new Subject<{ x: number; y: number }>();
+
+// Use createPausable to integrate with the machine
+machine.provideOptions(() => ({
+  emitters: {
+    // createPausable merges the Subscribable with app-ts syntax
+    clickEmitter: createPausable(clicks$, {
+      start: () => console.log('Started listening to clicks'),
+      pause: () => console.log('Paused listening'),
+      resume: () => console.log('Resumed listening'),
+    }),
+  },
+}));
+
+// Now events from the observable will be processed by the machine
+clicks$.next({ x: 100, y: 200 });`}</code>
+            </pre>
+          </div>
+        </section>
+
+        <section class='mb-8'>
+          <h2 class='text-2xl font-semibold text-gray-900 mb-3'>
             Best Practices
           </h2>
           <ul class='list-disc list-inside space-y-2 text-gray-700'>

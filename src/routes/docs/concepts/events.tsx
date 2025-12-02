@@ -46,51 +46,50 @@ export const Route = createFileRoute('/docs/concepts/events')({
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`import { createConfig } from '@bemedev/app-ts';
+              <code>{`import { createMachine } from '@bemedev/app-ts';
 
-const config = createConfig({
+const machine = createMachine({
   initial: 'idle',
   states: {
     idle: {
       on: {
         // Simple transition to another state
-        START: 'running',
+        START: '/running',
         
         // Transition with actions
         LOAD: {
-          target: 'loading',
+          target: '/loading',
           actions: 'fetchData',
         },
         
-        // Self-transition (stays in same state)
+        // Action without state change (no target)
         REFRESH: {
-          target: 'idle',
           actions: 'updateTimestamp',
         },
       },
     },
     running: {
       on: {
-        STOP: 'idle',
-        PAUSE: 'paused',
+        STOP: '/idle',
+        PAUSE: '/paused',
       },
     },
     paused: {
       on: {
-        RESUME: 'running',
-        STOP: 'idle',
+        RESUME: '/running',
+        STOP: '/idle',
       },
     },
     loading: {
       on: {
-        SUCCESS: 'idle',
-        ERROR: 'error',
+        SUCCESS: '/idle',
+        ERROR: '/error',
       },
     },
     error: {
       on: {
-        RETRY: 'loading',
-        CANCEL: 'idle',
+        RETRY: '/loading',
+        CANCEL: '/idle',
       },
     },
   },
@@ -104,66 +103,47 @@ const config = createConfig({
             Sending Events
           </h2>
           <p class='text-gray-700 mb-4'>
-            Once you have a machine instance, send events using the{' '}
+            <strong>Important:</strong> Events can ONLY be sent through the
+            interpreter. Once you interpret a machine, send events using
+            the{' '}
             <code class='bg-gray-100 px-2 py-1 rounded text-sm'>send</code>{' '}
             method:
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`import { createChildS } from '@bemedev/app-ts';
+              <code>{`import { createMachine, interpret } from '@bemedev/app-ts';
 
-const machine = createChildS(
-  config,
-  { context: {}, pContext: {} }
-);
+const machine = createMachine({
+  initial: 'idle',
+  states: {
+    idle: {
+      on: { START: '/running' },
+    },
+    running: {
+      on: { PAUSE: '/paused' },
+    },
+    paused: {
+      on: { RESUME: '/running' },
+    },
+  },
+});
+
+// Events can ONLY be sent by the interpreter
+const service = interpret(machine, { context: {} });
 
 // Send a simple event
-machine.send({ type: 'START' });
+service.send({ type: 'START' });
 
 // Send an event with payload
-machine.send({
+service.send({
   type: 'UPDATE',
   data: { userId: 123, name: 'Alice' },
 });
 
 // Chain multiple events
-machine.send({ type: 'START' });
-machine.send({ type: 'PAUSE' });
-machine.send({ type: 'RESUME' });`}</code>
-            </pre>
-          </div>
-        </section>
-
-        <section class='mb-8'>
-          <h2 class='text-2xl font-semibold text-gray-900 mb-3'>
-            Event Wildcards
-          </h2>
-          <p class='text-gray-700 mb-4'>
-            Handle any event in a state using the{' '}
-            <code class='bg-gray-100 px-2 py-1 rounded text-sm'>*</code>{' '}
-            wildcard:
-          </p>
-          <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
-            <pre class='text-sm'>
-              <code>{`const config = createConfig({
-  initial: 'active',
-  states: {
-    active: {
-      on: {
-        SPECIFIC: 'idle',
-        // Catch all other events
-        '*': {
-          actions: 'logUnhandledEvent',
-        },
-      },
-    },
-    idle: {
-      on: {
-        START: 'active',
-      },
-    },
-  },
-});`}</code>
+service.send({ type: 'START' });
+service.send({ type: 'PAUSE' });
+service.send({ type: 'RESUME' });`}</code>
             </pre>
           </div>
         </section>
@@ -181,26 +161,26 @@ machine.send({ type: 'RESUME' });`}</code>
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`const config = createConfig({
+              <code>{`const machine = createMachine({
   initial: 'waiting',
   states: {
     waiting: {
       // Transition after 3 seconds
       after: {
-        3000: 'timeout',
+        3000: '/timeout',
       },
       on: {
-        PROCEED: 'active',
+        PROCEED: '/active',
       },
     },
     active: {
       on: {
-        DONE: 'complete',
+        DONE: '/complete',
       },
     },
     timeout: {
       on: {
-        RETRY: 'waiting',
+        RETRY: '/waiting',
       },
     },
     complete: {
@@ -227,9 +207,10 @@ machine.send({ type: 'RESUME' });`}</code>
   | { type: 'RESET' }
   | { type: 'VALIDATE'; fields: string[] };
 
-// Events are now type-checked
-machine.send({ type: 'UPDATE_FIELD', field: 'email', value: 'test@example.com' });
-machine.send({ type: 'VALIDATE', fields: ['email', 'password'] });`}</code>
+// Events are type-checked and ONLY sent by interpreter
+const service = interpret(formMachine, { context: {} });
+service.send({ type: 'UPDATE_FIELD', field: 'email', value: 'test@example.com' });
+service.send({ type: 'VALIDATE', fields: ['email', 'password'] });`}</code>
             </pre>
           </div>
         </section>

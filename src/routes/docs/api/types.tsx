@@ -102,30 +102,6 @@ type EventsMapFrom<T> = T extends { events: infer E } ? E : EventsMap;`}</code>
             </pre>
           </div>
         </section>
-
-        <section class='mb-8'>
-          <h2 class='text-2xl font-semibold text-gray-900 mb-3'>
-            Usage Example
-          </h2>
-          <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
-            <pre class='text-sm'>
-              <code>{`import { createConfig, type ContextFrom } from '@bemedev/app-ts';
-
-const config = createConfig({
-  initial: 'idle',
-  context: { count: 0, name: '' },
-  pContext: {},
-  states: {
-    idle: {},
-  },
-});
-
-// Extract the context type
-type MyContext = ContextFrom<typeof config>;
-// MyContext = { count: number; name: string }`}</code>
-            </pre>
-          </div>
-        </section>
       </div>
     );
   },
