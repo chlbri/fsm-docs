@@ -4,3 +4,4 @@ export * from './Focus';
 export * from './MultiText';
 export * from './reducer';
 export * from './TypingText';
+export * from './PaletteItem';

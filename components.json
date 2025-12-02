@@ -3,14 +3,14 @@
   "tailwind": {
     "config": "tailwind.config.ts",
     "css": {
-      "path": "src/styles/app.css",
+      "path": "tailwind.css",
       "variable": false
     },
     "color": "zinc",
     "prefix": ""
   },
   "alias": {
-    "component": "#cn/components",
-    "cn": "#cn/utils"
+    "component": "~cn/components",
+    "cn": "~cn/utils"
   }
 }

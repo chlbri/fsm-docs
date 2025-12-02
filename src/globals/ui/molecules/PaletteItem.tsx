@@ -6,7 +6,7 @@ type ColorPaletteProps = {
   color: string;
 };
 
-export const ColorItem: Component<ColorPaletteProps> = props => {
+export const PaletteItem: Component<ColorPaletteProps> = props => {
   return (
     <div
       class='text-center p-0.5 rounded-xl border-2 border-dashed hover:scale-105 transition-transform duration-150 ease-in-out cursor-cell select-none'
