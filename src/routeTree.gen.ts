@@ -9,9 +9,31 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DocsRouteImport } from './routes/docs'
 import { Route as CountingRouteImport } from './routes/counting'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DocsQuickStartRouteImport } from './routes/docs/quick-start'
+import { Route as DocsIntroductionRouteImport } from './routes/docs/introduction'
+import { Route as DocsInstallationRouteImport } from './routes/docs/installation'
+import { Route as DocsExamplesTrafficLightRouteImport } from './routes/docs/examples/traffic-light'
+import { Route as DocsExamplesFormValidationRouteImport } from './routes/docs/examples/form-validation'
+import { Route as DocsExamplesAsyncOperationsRouteImport } from './routes/docs/examples/async-operations'
+import { Route as DocsConceptsStateMachinesRouteImport } from './routes/docs/concepts/state-machines'
+import { Route as DocsConceptsGuardsRouteImport } from './routes/docs/concepts/guards'
+import { Route as DocsConceptsEventsRouteImport } from './routes/docs/concepts/events'
+import { Route as DocsConceptsDelaysRouteImport } from './routes/docs/concepts/delays'
+import { Route as DocsConceptsContextRouteImport } from './routes/docs/concepts/context'
+import { Route as DocsConceptsActionsRouteImport } from './routes/docs/concepts/actions'
+import { Route as DocsApiTypesRouteImport } from './routes/docs/api/types'
+import { Route as DocsApiInterpreterRouteImport } from './routes/docs/api/interpreter'
+import { Route as DocsApiCreateConfigRouteImport } from './routes/docs/api/create-config'
+import { Route as DocsApiCreateChildRouteImport } from './routes/docs/api/create-child'
 
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CountingRoute = CountingRouteImport.update({
   id: '/counting',
   path: '/counting',
@@ -22,35 +44,236 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocsQuickStartRoute = DocsQuickStartRouteImport.update({
+  id: '/quick-start',
+  path: '/quick-start',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsIntroductionRoute = DocsIntroductionRouteImport.update({
+  id: '/introduction',
+  path: '/introduction',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsInstallationRoute = DocsInstallationRouteImport.update({
+  id: '/installation',
+  path: '/installation',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsExamplesTrafficLightRoute =
+  DocsExamplesTrafficLightRouteImport.update({
+    id: '/examples/traffic-light',
+    path: '/examples/traffic-light',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsExamplesFormValidationRoute =
+  DocsExamplesFormValidationRouteImport.update({
+    id: '/examples/form-validation',
+    path: '/examples/form-validation',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsExamplesAsyncOperationsRoute =
+  DocsExamplesAsyncOperationsRouteImport.update({
+    id: '/examples/async-operations',
+    path: '/examples/async-operations',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsConceptsStateMachinesRoute =
+  DocsConceptsStateMachinesRouteImport.update({
+    id: '/concepts/state-machines',
+    path: '/concepts/state-machines',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsConceptsGuardsRoute = DocsConceptsGuardsRouteImport.update({
+  id: '/concepts/guards',
+  path: '/concepts/guards',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsConceptsEventsRoute = DocsConceptsEventsRouteImport.update({
+  id: '/concepts/events',
+  path: '/concepts/events',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsConceptsDelaysRoute = DocsConceptsDelaysRouteImport.update({
+  id: '/concepts/delays',
+  path: '/concepts/delays',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsConceptsContextRoute = DocsConceptsContextRouteImport.update({
+  id: '/concepts/context',
+  path: '/concepts/context',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsConceptsActionsRoute = DocsConceptsActionsRouteImport.update({
+  id: '/concepts/actions',
+  path: '/concepts/actions',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsApiTypesRoute = DocsApiTypesRouteImport.update({
+  id: '/api/types',
+  path: '/api/types',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsApiInterpreterRoute = DocsApiInterpreterRouteImport.update({
+  id: '/api/interpreter',
+  path: '/api/interpreter',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsApiCreateConfigRoute = DocsApiCreateConfigRouteImport.update({
+  id: '/api/create-config',
+  path: '/api/create-config',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsApiCreateChildRoute = DocsApiCreateChildRouteImport.update({
+  id: '/api/create-child',
+  path: '/api/create-child',
+  getParentRoute: () => DocsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/counting': typeof CountingRoute
+  '/docs': typeof DocsRouteWithChildren
+  '/docs/installation': typeof DocsInstallationRoute
+  '/docs/introduction': typeof DocsIntroductionRoute
+  '/docs/quick-start': typeof DocsQuickStartRoute
+  '/docs/api/create-child': typeof DocsApiCreateChildRoute
+  '/docs/api/create-config': typeof DocsApiCreateConfigRoute
+  '/docs/api/interpreter': typeof DocsApiInterpreterRoute
+  '/docs/api/types': typeof DocsApiTypesRoute
+  '/docs/concepts/actions': typeof DocsConceptsActionsRoute
+  '/docs/concepts/context': typeof DocsConceptsContextRoute
+  '/docs/concepts/delays': typeof DocsConceptsDelaysRoute
+  '/docs/concepts/events': typeof DocsConceptsEventsRoute
+  '/docs/concepts/guards': typeof DocsConceptsGuardsRoute
+  '/docs/concepts/state-machines': typeof DocsConceptsStateMachinesRoute
+  '/docs/examples/async-operations': typeof DocsExamplesAsyncOperationsRoute
+  '/docs/examples/form-validation': typeof DocsExamplesFormValidationRoute
+  '/docs/examples/traffic-light': typeof DocsExamplesTrafficLightRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/counting': typeof CountingRoute
+  '/docs': typeof DocsRouteWithChildren
+  '/docs/installation': typeof DocsInstallationRoute
+  '/docs/introduction': typeof DocsIntroductionRoute
+  '/docs/quick-start': typeof DocsQuickStartRoute
+  '/docs/api/create-child': typeof DocsApiCreateChildRoute
+  '/docs/api/create-config': typeof DocsApiCreateConfigRoute
+  '/docs/api/interpreter': typeof DocsApiInterpreterRoute
+  '/docs/api/types': typeof DocsApiTypesRoute
+  '/docs/concepts/actions': typeof DocsConceptsActionsRoute
+  '/docs/concepts/context': typeof DocsConceptsContextRoute
+  '/docs/concepts/delays': typeof DocsConceptsDelaysRoute
+  '/docs/concepts/events': typeof DocsConceptsEventsRoute
+  '/docs/concepts/guards': typeof DocsConceptsGuardsRoute
+  '/docs/concepts/state-machines': typeof DocsConceptsStateMachinesRoute
+  '/docs/examples/async-operations': typeof DocsExamplesAsyncOperationsRoute
+  '/docs/examples/form-validation': typeof DocsExamplesFormValidationRoute
+  '/docs/examples/traffic-light': typeof DocsExamplesTrafficLightRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/counting': typeof CountingRoute
+  '/docs': typeof DocsRouteWithChildren
+  '/docs/installation': typeof DocsInstallationRoute
+  '/docs/introduction': typeof DocsIntroductionRoute
+  '/docs/quick-start': typeof DocsQuickStartRoute
+  '/docs/api/create-child': typeof DocsApiCreateChildRoute
+  '/docs/api/create-config': typeof DocsApiCreateConfigRoute
+  '/docs/api/interpreter': typeof DocsApiInterpreterRoute
+  '/docs/api/types': typeof DocsApiTypesRoute
+  '/docs/concepts/actions': typeof DocsConceptsActionsRoute
+  '/docs/concepts/context': typeof DocsConceptsContextRoute
+  '/docs/concepts/delays': typeof DocsConceptsDelaysRoute
+  '/docs/concepts/events': typeof DocsConceptsEventsRoute
+  '/docs/concepts/guards': typeof DocsConceptsGuardsRoute
+  '/docs/concepts/state-machines': typeof DocsConceptsStateMachinesRoute
+  '/docs/examples/async-operations': typeof DocsExamplesAsyncOperationsRoute
+  '/docs/examples/form-validation': typeof DocsExamplesFormValidationRoute
+  '/docs/examples/traffic-light': typeof DocsExamplesTrafficLightRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/counting'
+  fullPaths:
+    | '/'
+    | '/counting'
+    | '/docs'
+    | '/docs/installation'
+    | '/docs/introduction'
+    | '/docs/quick-start'
+    | '/docs/api/create-child'
+    | '/docs/api/create-config'
+    | '/docs/api/interpreter'
+    | '/docs/api/types'
+    | '/docs/concepts/actions'
+    | '/docs/concepts/context'
+    | '/docs/concepts/delays'
+    | '/docs/concepts/events'
+    | '/docs/concepts/guards'
+    | '/docs/concepts/state-machines'
+    | '/docs/examples/async-operations'
+    | '/docs/examples/form-validation'
+    | '/docs/examples/traffic-light'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/counting'
-  id: '__root__' | '/' | '/counting'
+  to:
+    | '/'
+    | '/counting'
+    | '/docs'
+    | '/docs/installation'
+    | '/docs/introduction'
+    | '/docs/quick-start'
+    | '/docs/api/create-child'
+    | '/docs/api/create-config'
+    | '/docs/api/interpreter'
+    | '/docs/api/types'
+    | '/docs/concepts/actions'
+    | '/docs/concepts/context'
+    | '/docs/concepts/delays'
+    | '/docs/concepts/events'
+    | '/docs/concepts/guards'
+    | '/docs/concepts/state-machines'
+    | '/docs/examples/async-operations'
+    | '/docs/examples/form-validation'
+    | '/docs/examples/traffic-light'
+  id:
+    | '__root__'
+    | '/'
+    | '/counting'
+    | '/docs'
+    | '/docs/installation'
+    | '/docs/introduction'
+    | '/docs/quick-start'
+    | '/docs/api/create-child'
+    | '/docs/api/create-config'
+    | '/docs/api/interpreter'
+    | '/docs/api/types'
+    | '/docs/concepts/actions'
+    | '/docs/concepts/context'
+    | '/docs/concepts/delays'
+    | '/docs/concepts/events'
+    | '/docs/concepts/guards'
+    | '/docs/concepts/state-machines'
+    | '/docs/examples/async-operations'
+    | '/docs/examples/form-validation'
+    | '/docs/examples/traffic-light'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CountingRoute: typeof CountingRoute
+  DocsRoute: typeof DocsRouteWithChildren
 }
 
 declare module '@tanstack/solid-router' {
   interface FileRoutesByPath {
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/counting': {
       id: '/counting'
       path: '/counting'
@@ -65,12 +288,165 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/docs/quick-start': {
+      id: '/docs/quick-start'
+      path: '/quick-start'
+      fullPath: '/docs/quick-start'
+      preLoaderRoute: typeof DocsQuickStartRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/introduction': {
+      id: '/docs/introduction'
+      path: '/introduction'
+      fullPath: '/docs/introduction'
+      preLoaderRoute: typeof DocsIntroductionRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/installation': {
+      id: '/docs/installation'
+      path: '/installation'
+      fullPath: '/docs/installation'
+      preLoaderRoute: typeof DocsInstallationRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/examples/traffic-light': {
+      id: '/docs/examples/traffic-light'
+      path: '/examples/traffic-light'
+      fullPath: '/docs/examples/traffic-light'
+      preLoaderRoute: typeof DocsExamplesTrafficLightRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/examples/form-validation': {
+      id: '/docs/examples/form-validation'
+      path: '/examples/form-validation'
+      fullPath: '/docs/examples/form-validation'
+      preLoaderRoute: typeof DocsExamplesFormValidationRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/examples/async-operations': {
+      id: '/docs/examples/async-operations'
+      path: '/examples/async-operations'
+      fullPath: '/docs/examples/async-operations'
+      preLoaderRoute: typeof DocsExamplesAsyncOperationsRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/concepts/state-machines': {
+      id: '/docs/concepts/state-machines'
+      path: '/concepts/state-machines'
+      fullPath: '/docs/concepts/state-machines'
+      preLoaderRoute: typeof DocsConceptsStateMachinesRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/concepts/guards': {
+      id: '/docs/concepts/guards'
+      path: '/concepts/guards'
+      fullPath: '/docs/concepts/guards'
+      preLoaderRoute: typeof DocsConceptsGuardsRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/concepts/events': {
+      id: '/docs/concepts/events'
+      path: '/concepts/events'
+      fullPath: '/docs/concepts/events'
+      preLoaderRoute: typeof DocsConceptsEventsRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/concepts/delays': {
+      id: '/docs/concepts/delays'
+      path: '/concepts/delays'
+      fullPath: '/docs/concepts/delays'
+      preLoaderRoute: typeof DocsConceptsDelaysRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/concepts/context': {
+      id: '/docs/concepts/context'
+      path: '/concepts/context'
+      fullPath: '/docs/concepts/context'
+      preLoaderRoute: typeof DocsConceptsContextRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/concepts/actions': {
+      id: '/docs/concepts/actions'
+      path: '/concepts/actions'
+      fullPath: '/docs/concepts/actions'
+      preLoaderRoute: typeof DocsConceptsActionsRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/api/types': {
+      id: '/docs/api/types'
+      path: '/api/types'
+      fullPath: '/docs/api/types'
+      preLoaderRoute: typeof DocsApiTypesRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/api/interpreter': {
+      id: '/docs/api/interpreter'
+      path: '/api/interpreter'
+      fullPath: '/docs/api/interpreter'
+      preLoaderRoute: typeof DocsApiInterpreterRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/api/create-config': {
+      id: '/docs/api/create-config'
+      path: '/api/create-config'
+      fullPath: '/docs/api/create-config'
+      preLoaderRoute: typeof DocsApiCreateConfigRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/api/create-child': {
+      id: '/docs/api/create-child'
+      path: '/api/create-child'
+      fullPath: '/docs/api/create-child'
+      preLoaderRoute: typeof DocsApiCreateChildRouteImport
+      parentRoute: typeof DocsRoute
+    }
   }
 }
+
+interface DocsRouteChildren {
+  DocsInstallationRoute: typeof DocsInstallationRoute
+  DocsIntroductionRoute: typeof DocsIntroductionRoute
+  DocsQuickStartRoute: typeof DocsQuickStartRoute
+  DocsApiCreateChildRoute: typeof DocsApiCreateChildRoute
+  DocsApiCreateConfigRoute: typeof DocsApiCreateConfigRoute
+  DocsApiInterpreterRoute: typeof DocsApiInterpreterRoute
+  DocsApiTypesRoute: typeof DocsApiTypesRoute
+  DocsConceptsActionsRoute: typeof DocsConceptsActionsRoute
+  DocsConceptsContextRoute: typeof DocsConceptsContextRoute
+  DocsConceptsDelaysRoute: typeof DocsConceptsDelaysRoute
+  DocsConceptsEventsRoute: typeof DocsConceptsEventsRoute
+  DocsConceptsGuardsRoute: typeof DocsConceptsGuardsRoute
+  DocsConceptsStateMachinesRoute: typeof DocsConceptsStateMachinesRoute
+  DocsExamplesAsyncOperationsRoute: typeof DocsExamplesAsyncOperationsRoute
+  DocsExamplesFormValidationRoute: typeof DocsExamplesFormValidationRoute
+  DocsExamplesTrafficLightRoute: typeof DocsExamplesTrafficLightRoute
+}
+
+const DocsRouteChildren: DocsRouteChildren = {
+  DocsInstallationRoute: DocsInstallationRoute,
+  DocsIntroductionRoute: DocsIntroductionRoute,
+  DocsQuickStartRoute: DocsQuickStartRoute,
+  DocsApiCreateChildRoute: DocsApiCreateChildRoute,
+  DocsApiCreateConfigRoute: DocsApiCreateConfigRoute,
+  DocsApiInterpreterRoute: DocsApiInterpreterRoute,
+  DocsApiTypesRoute: DocsApiTypesRoute,
+  DocsConceptsActionsRoute: DocsConceptsActionsRoute,
+  DocsConceptsContextRoute: DocsConceptsContextRoute,
+  DocsConceptsDelaysRoute: DocsConceptsDelaysRoute,
+  DocsConceptsEventsRoute: DocsConceptsEventsRoute,
+  DocsConceptsGuardsRoute: DocsConceptsGuardsRoute,
+  DocsConceptsStateMachinesRoute: DocsConceptsStateMachinesRoute,
+  DocsExamplesAsyncOperationsRoute: DocsExamplesAsyncOperationsRoute,
+  DocsExamplesFormValidationRoute: DocsExamplesFormValidationRoute,
+  DocsExamplesTrafficLightRoute: DocsExamplesTrafficLightRoute,
+}
+
+const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CountingRoute: CountingRoute,
+  DocsRoute: DocsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

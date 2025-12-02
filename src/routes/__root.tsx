@@ -22,8 +22,8 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       ...seo({
-        title: 'Web animations | by @chlbri',
-        description: `A beautifull library of web animations`,
+        title: '@bemedev/app-ts - TypeScript State Machine Library',
+        description: `Type-safe state machines for modern TypeScript applications. Build predictable, maintainable apps with finite state machines.`,
       }),
     ],
   }),
@@ -36,7 +36,7 @@ export const Route = createRootRoute({
         </head>
         <body>
           <HeadContent />
-          <main class='p-2 w-full min-h-full text-center'>
+          <main class='w-full min-h-screen bg-white'>
             <HeadLinks />
             <Outlet />
           </main>
