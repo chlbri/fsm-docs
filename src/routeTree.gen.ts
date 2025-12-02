@@ -27,7 +27,6 @@ import { Route as DocsConceptsActionsRouteImport } from './routes/docs/concepts/
 import { Route as DocsApiTypesRouteImport } from './routes/docs/api/types'
 import { Route as DocsApiInterpreterRouteImport } from './routes/docs/api/interpreter'
 import { Route as DocsApiCreateConfigRouteImport } from './routes/docs/api/create-config'
-import { Route as DocsApiCreateChildRouteImport } from './routes/docs/api/create-child'
 
 const DocsRoute = DocsRouteImport.update({
   id: '/docs',
@@ -123,11 +122,6 @@ const DocsApiCreateConfigRoute = DocsApiCreateConfigRouteImport.update({
   path: '/api/create-config',
   getParentRoute: () => DocsRoute,
 } as any)
-const DocsApiCreateChildRoute = DocsApiCreateChildRouteImport.update({
-  id: '/api/create-child',
-  path: '/api/create-child',
-  getParentRoute: () => DocsRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -136,7 +130,6 @@ export interface FileRoutesByFullPath {
   '/docs/installation': typeof DocsInstallationRoute
   '/docs/introduction': typeof DocsIntroductionRoute
   '/docs/quick-start': typeof DocsQuickStartRoute
-  '/docs/api/create-child': typeof DocsApiCreateChildRoute
   '/docs/api/create-config': typeof DocsApiCreateConfigRoute
   '/docs/api/interpreter': typeof DocsApiInterpreterRoute
   '/docs/api/types': typeof DocsApiTypesRoute
@@ -157,7 +150,6 @@ export interface FileRoutesByTo {
   '/docs/installation': typeof DocsInstallationRoute
   '/docs/introduction': typeof DocsIntroductionRoute
   '/docs/quick-start': typeof DocsQuickStartRoute
-  '/docs/api/create-child': typeof DocsApiCreateChildRoute
   '/docs/api/create-config': typeof DocsApiCreateConfigRoute
   '/docs/api/interpreter': typeof DocsApiInterpreterRoute
   '/docs/api/types': typeof DocsApiTypesRoute
@@ -179,7 +171,6 @@ export interface FileRoutesById {
   '/docs/installation': typeof DocsInstallationRoute
   '/docs/introduction': typeof DocsIntroductionRoute
   '/docs/quick-start': typeof DocsQuickStartRoute
-  '/docs/api/create-child': typeof DocsApiCreateChildRoute
   '/docs/api/create-config': typeof DocsApiCreateConfigRoute
   '/docs/api/interpreter': typeof DocsApiInterpreterRoute
   '/docs/api/types': typeof DocsApiTypesRoute
@@ -202,7 +193,6 @@ export interface FileRouteTypes {
     | '/docs/installation'
     | '/docs/introduction'
     | '/docs/quick-start'
-    | '/docs/api/create-child'
     | '/docs/api/create-config'
     | '/docs/api/interpreter'
     | '/docs/api/types'
@@ -223,7 +213,6 @@ export interface FileRouteTypes {
     | '/docs/installation'
     | '/docs/introduction'
     | '/docs/quick-start'
-    | '/docs/api/create-child'
     | '/docs/api/create-config'
     | '/docs/api/interpreter'
     | '/docs/api/types'
@@ -244,7 +233,6 @@ export interface FileRouteTypes {
     | '/docs/installation'
     | '/docs/introduction'
     | '/docs/quick-start'
-    | '/docs/api/create-child'
     | '/docs/api/create-config'
     | '/docs/api/interpreter'
     | '/docs/api/types'
@@ -393,13 +381,6 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof DocsApiCreateConfigRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/docs/api/create-child': {
-      id: '/docs/api/create-child'
-      path: '/api/create-child'
-      fullPath: '/docs/api/create-child'
-      preLoaderRoute: typeof DocsApiCreateChildRouteImport
-      parentRoute: typeof DocsRoute
-    }
   }
 }
 
@@ -407,7 +388,6 @@ interface DocsRouteChildren {
   DocsInstallationRoute: typeof DocsInstallationRoute
   DocsIntroductionRoute: typeof DocsIntroductionRoute
   DocsQuickStartRoute: typeof DocsQuickStartRoute
-  DocsApiCreateChildRoute: typeof DocsApiCreateChildRoute
   DocsApiCreateConfigRoute: typeof DocsApiCreateConfigRoute
   DocsApiInterpreterRoute: typeof DocsApiInterpreterRoute
   DocsApiTypesRoute: typeof DocsApiTypesRoute
@@ -426,7 +406,6 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsInstallationRoute: DocsInstallationRoute,
   DocsIntroductionRoute: DocsIntroductionRoute,
   DocsQuickStartRoute: DocsQuickStartRoute,
-  DocsApiCreateChildRoute: DocsApiCreateChildRoute,
   DocsApiCreateConfigRoute: DocsApiCreateConfigRoute,
   DocsApiInterpreterRoute: DocsApiInterpreterRoute,
   DocsApiTypesRoute: DocsApiTypesRoute,
