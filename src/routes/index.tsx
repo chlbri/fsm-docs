@@ -42,10 +42,10 @@ const toggleMachine = createMachine({
   initial: 'inactive',
   states: {
     inactive: {
-      on: { TOGGLE: 'active' },
+      on: { TOGGLE: '/active' }, // Path-based target
     },
     active: {
-      on: { TOGGLE: 'inactive' },
+      on: { TOGGLE: '/inactive' }, // No self-transitions allowed
     },
   },
 });

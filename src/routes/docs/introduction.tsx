@@ -98,12 +98,12 @@ const toggleMachine = createMachine({
   states: {
     inactive: {
       on: {
-        TOGGLE: 'active',
+        TOGGLE: '/active',
       },
     },
     active: {
       on: {
-        TOGGLE: 'inactive',
+        TOGGLE: '/inactive',
       },
     },
   },

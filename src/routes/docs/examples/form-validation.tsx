@@ -26,15 +26,14 @@ const formMachine = createMachine({
     editing: {
       on: {
         UPDATE_EMAIL: {
-          target: 'editing',
+          // No target = action without transition
           actions: 'updateEmail',
         },
         UPDATE_PASSWORD: {
-          target: 'editing',
           actions: 'updatePassword',
         },
         SUBMIT: {
-          target: 'validating',
+          target: '/validating',
           actions: 'clearErrors',
         },
       },
@@ -42,15 +41,15 @@ const formMachine = createMachine({
     validating: {
       entry: 'validate',
       on: {
-        VALIDATION_SUCCESS: 'submitting',
-        VALIDATION_ERROR: 'editing',
+        VALIDATION_SUCCESS: '/submitting',
+        VALIDATION_ERROR: '/editing',
       },
     },
     submitting: {
       entry: 'submitForm',
       on: {
-        SUBMIT_SUCCESS: 'success',
-        SUBMIT_ERROR: 'error',
+        SUBMIT_SUCCESS: '/success',
+        SUBMIT_ERROR: '/error',
       },
     },
     success: {
@@ -58,8 +57,8 @@ const formMachine = createMachine({
     },
     error: {
       on: {
-        RETRY: 'validating',
-        EDIT: 'editing',
+        RETRY: '/validating',
+        EDIT: '/editing',
       },
     },
   },

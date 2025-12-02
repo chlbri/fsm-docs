@@ -73,17 +73,17 @@ const trafficLightMachine = createMachine({
   states: {
     green: {
       on: {
-        TIMER: 'yellow',
+        TIMER: '/yellow', // Path-based transitions
       },
     },
     yellow: {
       on: {
-        TIMER: 'red',
+        TIMER: '/red',
       },
     },
     red: {
       on: {
-        TIMER: 'green',
+        TIMER: '/green',
       },
     },
   },

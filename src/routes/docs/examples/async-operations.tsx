@@ -25,17 +25,17 @@ const fetchMachine = createMachine({
   states: {
     idle: {
       on: {
-        FETCH: 'loading',
+        FETCH: '/loading',
       },
     },
     loading: {
       on: {
         SUCCESS: {
-          target: 'success',
+          target: '/success',
           actions: 'setData',
         },
         ERROR: {
-          target: 'error',
+          target: '/error',
           actions: 'setError',
         },
       },
@@ -45,14 +45,14 @@ const fetchMachine = createMachine({
     },
     success: {
       on: {
-        REFETCH: 'loading',
-        RESET: 'idle',
+        REFETCH: '/loading',
+        RESET: '/idle',
       },
     },
     error: {
       on: {
-        RETRY: 'loading',
-        RESET: 'idle',
+        RETRY: '/loading',
+        RESET: '/idle',
       },
     },
   },

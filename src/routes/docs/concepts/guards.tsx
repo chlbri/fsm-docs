@@ -33,11 +33,11 @@ export const Route = createFileRoute('/docs/concepts/guards')({
     counting: {
       on: {
         INCREMENT: {
-          target: 'counting',
+          // No target = executes action without transition
           guards: 'belowMax',
           actions: 'increment',
         },
-        MAX_REACHED: 'complete',
+        MAX_REACHED: '/complete',
       },
     },
     complete: {

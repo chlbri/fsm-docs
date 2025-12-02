@@ -29,12 +29,12 @@ const toggleMachine = createMachine({
   states: {
     inactive: {
       on: {
-        TOGGLE: 'active',
+        TOGGLE: '/active', // Target uses path syntax
       },
     },
     active: {
       on: {
-        TOGGLE: 'inactive',
+        TOGGLE: '/inactive', // States cannot transition to themselves
       },
     },
   },
@@ -61,11 +61,11 @@ const counterMachine = createMachine({
     idle: {
       on: {
         INCREMENT: {
-          target: 'idle',
+          // Self-transitions are not allowed in @bemedev/app-ts
+          // Instead, actions execute without state change
           actions: 'incrementCount',
         },
         DECREMENT: {
-          target: 'idle',
           actions: 'decrementCount',
         },
       },
@@ -99,15 +99,15 @@ const limitedCounterMachine = createMachine({
     counting: {
       on: {
         INCREMENT: {
-          target: 'counting',
+          // No target = action executes without transition
           guards: 'canIncrement',
           actions: 'incrementCount',
         },
-        RESET: {
-          target: 'counting',
-          actions: 'resetCount',
-        },
+        MAX_REACHED: '/complete', // Transition to different state
       },
+    },
+    complete: {
+      type: 'final',
     },
   },
 });
@@ -136,10 +136,10 @@ const toggleMachine = createMachine({
   initial: 'inactive',
   states: {
     inactive: {
-      on: { TOGGLE: 'active' },
+      on: { TOGGLE: '/active' },
     },
     active: {
-      on: { TOGGLE: 'inactive' },
+      on: { TOGGLE: '/inactive' },
     },
   },
 });
@@ -156,6 +156,59 @@ console.log(service.value); // 'active'
 service.send({ type: 'TOGGLE' });
 console.log(service.value); // 'inactive'`}</code>
             </pre>
+          </div>
+        </section>
+
+        <section class='mb-8'>
+          <h2 class='text-2xl font-semibold text-gray-900 mb-3'>
+            Important: Path-Based Targets
+          </h2>
+          <p class='text-gray-700 mb-4'>
+            @bemedev/app-ts uses <strong>path-based target syntax</strong>:
+          </p>
+          <ul class='list-disc list-inside space-y-2 text-gray-700 mb-4'>
+            <li>
+              Targets use paths:{' '}
+              <code class='bg-gray-100 px-2 py-1 rounded text-sm'>
+                '/stateName'
+              </code>{' '}
+              instead of{' '}
+              <code class='bg-gray-100 px-2 py-1 rounded text-sm'>
+                'stateName'
+              </code>
+            </li>
+            <li>
+              Nested states:{' '}
+              <code class='bg-gray-100 px-2 py-1 rounded text-sm'>
+                '/parent/child'
+              </code>
+            </li>
+            <li>
+              <strong>Self-transitions are not allowed</strong> - states
+              cannot transition to themselves (type-safe)
+            </li>
+            <li>
+              Omit{' '}
+              <code class='bg-gray-100 px-2 py-1 rounded text-sm'>
+                target
+              </code>{' '}
+              to execute actions without state changes
+            </li>
+          </ul>
+          <div class='bg-blue-50 border-l-4 border-blue-500 p-4 mb-4'>
+            <p class='text-blue-900'>
+              <strong>Tip:</strong> Use{' '}
+              <a
+                href='https://www.npmjs.com/package/@bemedev/app-cli'
+                class='text-blue-600 hover:underline'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                @bemedev/app-cli
+              </a>{' '}
+              to generate type-safe schemas that prevent self-transitions
+              and provide full type inference for targets!
+            </p>
           </div>
         </section>
 

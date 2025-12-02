@@ -49,11 +49,10 @@ const machine = createMachine({
     idle: {
       on: {
         INCREMENT: {
-          target: 'idle',
+          // No target means action executes without state change
           actions: 'incrementCount',
         },
         DECREMENT: {
-          target: 'idle',
           actions: 'decrementCount',
         },
       },
@@ -85,14 +84,14 @@ const machine = createMachine({
       entry: 'logEntry',
       exit: 'logExit',
       on: {
-        START: 'running',
+        START: '/running', // Path-based target
       },
     },
     running: {
       entry: ['startTimer', 'notifyUser'],
       exit: 'stopTimer',
       on: {
-        STOP: 'idle',
+        STOP: '/idle',
       },
     },
   },
@@ -130,15 +129,15 @@ const machine = createMachine({
     idle: {
       on: {
         SUBMIT: {
-          target: 'loading',
+          target: '/loading',
           actions: 'handleSubmit',
         },
       },
     },
     loading: {
       on: {
-        SUCCESS: 'success',
-        ERROR: 'error',
+        SUCCESS: '/success',
+        ERROR: '/error',
       },
     },
     success: {},

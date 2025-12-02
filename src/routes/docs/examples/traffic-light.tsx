@@ -41,28 +41,28 @@ const trafficLightMachine = createMachine({
       entry: 'logGreenEntry',
       exit: 'logGreenExit',
       after: {
-        10000: 'yellow', // Transition after 10 seconds
+        10000: '/yellow', // Transition after 10 seconds
       },
       on: {
-        EMERGENCY: 'red',
+        EMERGENCY: '/red',
       },
     },
     yellow: {
       entry: 'logYellowEntry',
       after: {
-        3000: 'red', // Transition after 3 seconds
+        3000: '/red', // Transition after 3 seconds
       },
       on: {
-        EMERGENCY: 'red',
+        EMERGENCY: '/red',
       },
     },
     red: {
       entry: 'logRedEntry',
       after: {
-        12000: 'green', // Transition after 12 seconds
+        12000: '/green', // Transition after 12 seconds
       },
       on: {
-        EMERGENCY_CLEAR: 'green',
+        EMERGENCY_CLEAR: '/green',
       },
     },
   },

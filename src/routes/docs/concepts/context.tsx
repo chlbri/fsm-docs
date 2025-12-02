@@ -24,7 +24,7 @@ export const Route = createFileRoute('/docs/concepts/context')({
   initial: 'idle',
   states: {
     idle: {
-      on: { INCREMENT: { target: 'idle', actions: 'increment' } },
+      on: { INCREMENT: { actions: 'increment' } },
     },
   },
 });
@@ -32,12 +32,12 @@ export const Route = createFileRoute('/docs/concepts/context')({
 // Context is provided when interpreting the machine
 const service = interpret(machine, {
   context: {
-    // Public context
+    // Public context - accessible externally
     count: 0,
     user: null,
   },
   pContext: {
-    // Private context
+    // Private context - internal to the machine
     internalState: {},
   },
 });`}</code>
