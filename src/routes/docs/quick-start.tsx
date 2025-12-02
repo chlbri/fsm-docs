@@ -131,7 +131,7 @@ const limitedCounterConfig = createConfig({
 
 const toggleConfig = createConfig({
   initial: 'inactive',
-  context: { toggleCount: 0 },
+  context: { count: 0 },
   pContext: {},
   states: {
     inactive: {
@@ -147,7 +147,7 @@ const toggleConfig = createConfig({
 const machine = createChildS(
   toggleConfig,
   {
-    context: { toggleCount: 0 },
+    context: { count: 0 },
     pContext: {},
   }
 );

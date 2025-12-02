@@ -41,6 +41,7 @@ export const Route = createFileRoute('/')({
 const toggleConfig = createConfig({
   initial: 'inactive',
   context: { count: 0 },
+  pContext: {},
   states: {
     inactive: {
       on: { TOGGLE: 'active' },
@@ -51,10 +52,10 @@ const toggleConfig = createConfig({
   },
 });
 
-const machine = createChildS(toggleConfig, {
-  context: { count: 0 },
-  pContext: {},
-});
+const machine = createChildS(
+  toggleConfig,
+  { context: { count: 0 }, pContext: {} }
+);
 
 machine.send({ type: 'TOGGLE' });
 console.log(machine.state); // 'active'`}</code>
