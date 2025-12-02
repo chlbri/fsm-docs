@@ -21,10 +21,10 @@ export const Route = createFileRoute('/docs/quick-start')({
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`import { createConfig } from '@bemedev/app-ts';
+              <code>{`import { createMachine } from '@bemedev/app-ts';
 
 // Define the machine configuration
-const toggleConfig = createConfig({
+const toggleMachine = createMachine({
   initial: 'inactive',
   states: {
     inactive: {
@@ -53,13 +53,10 @@ const toggleConfig = createConfig({
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`import { createConfig } from '@bemedev/app-ts';
+              <code>{`import { createMachine, interpret } from '@bemedev/app-ts';
 
-const counterConfig = createConfig({
+const counterMachine = createMachine({
   initial: 'idle',
-  context: {
-    count: 0,
-  },
   states: {
     idle: {
       on: {
@@ -74,6 +71,11 @@ const counterConfig = createConfig({
       },
     },
   },
+});
+
+// Context is provided when interpreting the machine
+const service = interpret(counterMachine, {
+  context: { count: 0 },
 });`}</code>
             </pre>
           </div>
@@ -89,20 +91,16 @@ const counterConfig = createConfig({
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`import { createConfig } from '@bemedev/app-ts';
+              <code>{`import { createMachine, interpret } from '@bemedev/app-ts';
 
-const limitedCounterConfig = createConfig({
+const limitedCounterMachine = createMachine({
   initial: 'counting',
-  context: {
-    count: 0,
-    max: 10,
-  },
   states: {
     counting: {
       on: {
         INCREMENT: {
           target: 'counting',
-          guard: 'canIncrement',
+          guards: 'canIncrement',
           actions: 'incrementCount',
         },
         RESET: {
@@ -112,6 +110,11 @@ const limitedCounterConfig = createConfig({
       },
     },
   },
+});
+
+// Context is provided when interpreting the machine
+const service = interpret(limitedCounterMachine, {
+  context: { count: 0, max: 10 },
 });`}</code>
             </pre>
           </div>
@@ -127,12 +130,10 @@ const limitedCounterConfig = createConfig({
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`import { createConfig, createChildS } from '@bemedev/app-ts';
+              <code>{`import { createMachine, interpret } from '@bemedev/app-ts';
 
-const toggleConfig = createConfig({
+const toggleMachine = createMachine({
   initial: 'inactive',
-  context: { count: 0 },
-  pContext: {},
   states: {
     inactive: {
       on: { TOGGLE: 'active' },
@@ -143,21 +144,17 @@ const toggleConfig = createConfig({
   },
 });
 
-// Create the machine instance
-const machine = createChildS(
-  toggleConfig,
-  {
-    context: { count: 0 },
-    pContext: {},
-  }
-);
+// Create the service with initial context
+const service = interpret(toggleMachine, {
+  context: { count: 0 },
+});
 
 // Send events
-machine.send({ type: 'TOGGLE' });
-console.log(machine.state); // 'active'
+service.send({ type: 'TOGGLE' });
+console.log(service.value); // 'active'
 
-machine.send({ type: 'TOGGLE' });
-console.log(machine.state); // 'inactive'`}</code>
+service.send({ type: 'TOGGLE' });
+console.log(service.value); // 'inactive'`}</code>
             </pre>
           </div>
         </section>

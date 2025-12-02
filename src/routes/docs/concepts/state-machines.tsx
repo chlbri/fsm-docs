@@ -63,9 +63,9 @@ export const Route = createFileRoute('/docs/concepts/state-machines')({
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`import { createConfig } from '@bemedev/app-ts';
+              <code>{`import { createMachine } from '@bemedev/app-ts';
 
-const trafficLightConfig = createConfig({
+const trafficLightMachine = createMachine({
   // Initial state when machine starts
   initial: 'green',
   

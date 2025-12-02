@@ -18,16 +18,10 @@ export const Route = createFileRoute('/docs/examples/form-validation')({
           </h2>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`import { createConfig, createChildS } from '@bemedev/app-ts';
+              <code>{`import { createMachine, interpret } from '@bemedev/app-ts';
 
-const formConfig = createConfig({
+const formMachine = createMachine({
   initial: 'editing',
-  context: {
-    email: '',
-    password: '',
-    errors: {},
-  },
-  pContext: {},
   states: {
     editing: {
       on: {
@@ -71,51 +65,33 @@ const formConfig = createConfig({
   },
 });
 
-const actions = {
-  updateEmail: (context: any, event: any) => ({
-    ...context,
-    email: event.value,
-  }),
-  
-  updatePassword: (context: any, event: any) => ({
-    ...context,
-    password: event.value,
-  }),
-  
-  clearErrors: (context: any) => ({
-    ...context,
+// Create the service with initial context
+const service = interpret(formMachine, {
+  context: {
+    email: '',
+    password: '',
     errors: {},
-  }),
-  
-  validate: (context: any) => {
-    const errors: any = {};
-    
-    if (!context.email.includes('@')) {
-      errors.email = 'Invalid email';
-    }
-    
-    if (context.password.length < 8) {
-      errors.password = 'Password too short';
-    }
-    
-    return { ...context, errors };
   },
-  
-  submitForm: async (context: any) => {
-    try {
-      await fetch('/api/submit', {
-        method: 'POST',
-        body: JSON.stringify({
-          email: context.email,
-          password: context.password,
-        }),
-      });
-      return context;
-    } catch (error) {
-      return { ...context, errors: { submit: 'Failed to submit' } };
-    }
+});
+
+// Define actions using provideOptions
+service.provideOptions(({ assign }) => ({
+  actions: {
+    updateEmail: assign('context.email', ({ event }) => event.value),
+    updatePassword: assign('context.password', ({ event }) => event.value),
+    clearErrors: assign('context.errors', () => ({})),
+    validate: assign('context.errors', ({ context }) => {
+      const errors: any = {};
+      if (!context.email.includes('@')) {
+        errors.email = 'Invalid email';
+      }
+      if (context.password.length < 8) {
+        errors.password = 'Password too short';
+      }
+      return errors;
+    }),
   },
-};`}</code>
+}));`}</code>
             </pre>
           </div>
         </section>

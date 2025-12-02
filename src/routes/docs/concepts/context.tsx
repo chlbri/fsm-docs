@@ -20,8 +20,17 @@ export const Route = createFileRoute('/docs/concepts/context')({
           </p>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`const config = createConfig({
+              <code>{`const machine = createMachine({
   initial: 'idle',
+  states: {
+    idle: {
+      on: { INCREMENT: { target: 'idle', actions: 'increment' } },
+    },
+  },
+});
+
+// Context is provided when interpreting the machine
+const service = interpret(machine, {
   context: {
     // Public context
     count: 0,
@@ -30,11 +39,6 @@ export const Route = createFileRoute('/docs/concepts/context')({
   pContext: {
     // Private context
     internalState: {},
-  },
-  states: {
-    idle: {
-      on: { INCREMENT: { target: 'idle', actions: 'increment' } },
-    },
   },
 });`}</code>
             </pre>

@@ -36,12 +36,10 @@ export const Route = createFileRoute('/')({
         <section class='w-full max-w-4xl'>
           <div class='bg-gray-900 text-gray-100 p-6 rounded-lg'>
             <pre class='text-sm overflow-x-auto'>
-              <code>{`import { createConfig, createChildS } from '@bemedev/app-ts';
+              <code>{`import { createMachine, interpret } from '@bemedev/app-ts';
 
-const toggleConfig = createConfig({
+const toggleMachine = createMachine({
   initial: 'inactive',
-  context: { count: 0 },
-  pContext: {},
   states: {
     inactive: {
       on: { TOGGLE: 'active' },
@@ -52,13 +50,12 @@ const toggleConfig = createConfig({
   },
 });
 
-const machine = createChildS(
-  toggleConfig,
-  { context: { count: 0 }, pContext: {} }
-);
+const service = interpret(toggleMachine, {
+  context: { count: 0 },
+});
 
-machine.send({ type: 'TOGGLE' });
-console.log(machine.state); // 'active'`}</code>
+service.send({ type: 'TOGGLE' });
+console.log(service.value); // 'active'`}</code>
             </pre>
           </div>
         </section>

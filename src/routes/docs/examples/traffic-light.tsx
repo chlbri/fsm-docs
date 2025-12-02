@@ -31,16 +31,11 @@ export const Route = createFileRoute('/docs/examples/traffic-light')({
           </h2>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`import { createConfig, createChildS } from '@bemedev/app-ts';
+              <code>{`import { createMachine, interpret } from '@bemedev/app-ts';
 
-// Define the traffic light configuration
-const trafficLightConfig = createConfig({
+// Define the traffic light machine
+const trafficLightMachine = createMachine({
   initial: 'green',
-  context: {
-    lastChange: Date.now(),
-    emergencyActive: false,
-  },
-  pContext: {},
   states: {
     green: {
       entry: 'logGreenEntry',
@@ -112,31 +107,27 @@ const actions = {
   },
 };
 
-// Create the machine instance
-const trafficLight = createChildS(
-  trafficLightConfig,
-  {
-    context: {
-      lastChange: Date.now(),
-      emergencyActive: false,
-    },
-    pContext: {},
-  }
-);
+// Create the service with initial context
+const service = interpret(trafficLightMachine, {
+  context: {
+    lastChange: Date.now(),
+    emergencyActive: false,
+  },
+});
 
 // Example usage
-console.log('Initial state:', trafficLight.state); // 'green'
+console.log('Initial state:', service.value); // 'green'
 
 // Simulate emergency
 setTimeout(() => {
-  trafficLight.send({ type: 'EMERGENCY' });
-  console.log('After emergency:', trafficLight.state); // 'red'
+  service.send({ type: 'EMERGENCY' });
+  console.log('After emergency:', service.value); // 'red'
 }, 5000);
 
 // Clear emergency after some time
 setTimeout(() => {
-  trafficLight.send({ type: 'EMERGENCY_CLEAR' });
-  console.log('After clear:', trafficLight.state); // 'green'
+  service.send({ type: 'EMERGENCY_CLEAR' });
+  console.log('After clear:', service.value); // 'green'
 }, 8000);`}</code>
             </pre>
           </div>

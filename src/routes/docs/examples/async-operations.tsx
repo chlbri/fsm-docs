@@ -18,15 +18,10 @@ export const Route = createFileRoute('/docs/examples/async-operations')({
           </h2>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg'>
             <pre class='text-sm'>
-              <code>{`import { createConfig, createChildS } from '@bemedev/app-ts';
+              <code>{`import { createMachine, interpret } from '@bemedev/app-ts';
 
-const fetchConfig = createConfig({
+const fetchMachine = createMachine({
   initial: 'idle',
-  context: {
-    data: null,
-    error: null,
-  },
-  pContext: {},
   states: {
     idle: {
       on: {
@@ -34,7 +29,6 @@ const fetchConfig = createConfig({
       },
     },
     loading: {
-      entry: 'fetchData',
       on: {
         SUCCESS: {
           target: 'success',
@@ -43,6 +37,12 @@ const fetchConfig = createConfig({
         ERROR: {
           target: 'error',
           actions: 'setError',
+        },
+      },
+      promises: {
+        fetchData: async () => {
+          const response = await fetch('/api/data');
+          return response.json();
         },
       },
     },
@@ -61,33 +61,29 @@ const fetchConfig = createConfig({
   },
 });
 
-const actions = {
-  fetchData: async (context: any) => {
-    try {
-      const response = await fetch('/api/data');
-      const data = await response.json();
-      return { ...context, data, error: null };
-    } catch (error) {
-      return {
-        ...context,
-        error: 'Failed to fetch data',
-        data: null,
-      };
-    }
-  },
-  
-  setData: (context: any, event: any) => ({
-    ...context,
-    data: event.data,
-    error: null,
-  }),
-  
-  setError: (context: any, event: any) => ({
-    ...context,
-    error: event.error,
+// Create the service with initial context
+const service = interpret(fetchMachine, {
+  context: {
     data: null,
-  }),
-};`}</code>
+    error: null,
+  },
+});
+
+// Define actions
+service.provideOptions(({ assign }) => ({
+  actions: {
+    setData: assign('context', ({ context, event }) => ({
+      ...context,
+      data: event.data,
+      error: null,
+    })),
+    setError: assign('context', ({ context, event }) => ({
+      ...context,
+      error: event.error,
+      data: null,
+    })),
+  },
+}));`}</code>
             </pre>
           </div>
         </section>

@@ -91,11 +91,10 @@ export const Route = createFileRoute('/docs/introduction')({
           </h2>
           <div class='bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto'>
             <pre class='text-sm'>
-              <code>{`import { createConfig } from '@bemedev/app-ts';
+              <code>{`import { createMachine } from '@bemedev/app-ts';
 
-const toggleConfig = createConfig({
+const toggleMachine = createMachine({
   initial: 'inactive',
-  context: { count: 0 },
   states: {
     inactive: {
       on: {
