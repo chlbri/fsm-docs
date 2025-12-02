@@ -1,4 +1,4 @@
-import { For, type Component } from 'solid-js';
+import { type Component } from 'solid-js';
 import { fcc } from '~ui/helpers/fcc';
 
 type ColorPaletteProps = {
@@ -6,7 +6,7 @@ type ColorPaletteProps = {
   color: string;
 };
 
-const ColorItem: Component<ColorPaletteProps> = props => {
+export const ColorItem: Component<ColorPaletteProps> = props => {
   return (
     <div
       class='text-center p-0.5 rounded-xl border-2 border-dashed hover:scale-105 transition-transform duration-150 ease-in-out cursor-cell select-none'
@@ -44,10 +44,4 @@ const ColorItem: Component<ColorPaletteProps> = props => {
       </div>
     </div>
   );
-};
-
-export const ColorsPalette: Component<{
-  colors: ColorPaletteProps[];
-}> = props => {
-  return <For each={props.colors}>{ColorItem}</For>;
 };
