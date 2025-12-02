@@ -26,7 +26,7 @@ const navigation = [
     title: 'API Reference',
     items: [
       { label: 'createConfig', to: '/docs/api/create-config' },
-      { label: 'createChildS', to: '/docs/api/create-child' },
+  
       { label: 'Interpreter', to: '/docs/api/interpreter' },
       { label: 'Types', to: '/docs/api/types' },
     ],

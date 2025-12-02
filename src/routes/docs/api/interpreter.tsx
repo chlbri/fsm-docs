@@ -96,7 +96,7 @@ const config = createConfig({
   },
 });
 
-const machine = createChildS(config, {
+const machine = createMachine(config, {
   context: { value: 0 },
   pContext: {},
 });

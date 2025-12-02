@@ -115,15 +115,6 @@ const lightConfig = createConfig({
           <ul class='list-disc list-inside space-y-2 text-gray-700'>
             <li>
               <a
-                href='/docs/api/create-child'
-                class='text-blue-600 hover:underline'
-              >
-                createChildS
-              </a>{' '}
-              - Create a machine instance
-            </li>
-            <li>
-              <a
                 href='/docs/concepts/state-machines'
                 class='text-blue-600 hover:underline'
               >
