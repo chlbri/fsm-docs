@@ -1,16 +1,15 @@
 /// <reference types="vite/client" />
 
-import seo from '~seo';
 import {
   createRootRoute,
-  Outlet,
   HeadContent,
+  Outlet,
   Scripts,
 } from '@tanstack/solid-router';
 import { TanStackRouterDevtools } from '@tanstack/solid-router-devtools';
-import appCss from '../../tailwind.css?url';
-import HeadLinks from '~ui/organisms/HeadLinks';
 import { HydrationScript } from 'solid-js/web';
+import seo from '~seo';
+import appCss from '../../tailwind.css?url';
 
 export const Route = createRootRoute({
   head: () => ({
@@ -22,8 +21,8 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       ...seo({
-        title: 'Web animations | by @chlbri',
-        description: `A beautifull library of web animations`,
+        title: '@bemedev/app-ts - TypeScript State Machine Library',
+        description: `Type-safe state machines for modern TypeScript applications. Build predictable, maintainable apps with finite state machines.`,
       }),
     ],
   }),
@@ -36,8 +35,8 @@ export const Route = createRootRoute({
         </head>
         <body>
           <HeadContent />
-          <main class='p-2 w-full min-h-full text-center'>
-            <HeadLinks />
+          <main class='w-full min-h-screen bg-white'>
+            {/* <HeadLinks /> */}
             <Outlet />
           </main>
           <TanStackRouterDevtools />
